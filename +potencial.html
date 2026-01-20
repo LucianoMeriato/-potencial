@@ -1,0 +1,1157 @@
+<!-- index.html | +Potencial (Apple-like UX com azul + amarelo) -->
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="+Potencial — ensino com foco em resultado, clareza e constância." />
+  <title>+Potencial</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      /* Marca (+Potencial): ajuste se quiser */
+      --brand-blue: #0B57D0;
+      --brand-yellow: #F7C948;
+
+      /* Base Apple-like */
+      --bg: #ffffff;
+      --bg-2: #f6f7fb;
+      --text: #0b0f19;
+      --muted: rgba(11,15,25,.72);
+      --border: rgba(15,23,42,.12);
+      --shadow: 0 18px 60px rgba(2, 8, 23, .10);
+
+      --radius: 18px;
+      --radius-lg: 26px;
+
+      --ease: cubic-bezier(.2,.8,.2,1);
+      --t-fast: 180ms;
+      --t: 320ms;
+      --t-slow: 520ms;
+
+      --container: 1120px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 800px at 20% -10%, rgba(11,87,208,.10), transparent 55%),
+        radial-gradient(900px 700px at 90% 10%, rgba(247,201,72,.12), transparent 55%),
+        linear-gradient(#fff, #fff);
+      overflow-x:hidden;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{max-width:var(--container); margin:0 auto; padding:0 22px}
+    .section{padding:84px 0}
+    .section.alt{background:linear-gradient(180deg, var(--bg-2), #fff)}
+    .kicker{
+      display:inline-flex; gap:10px; align-items:center;
+      padding:8px 12px; border:1px solid var(--border); border-radius:999px;
+      background:rgba(255,255,255,.65);
+      backdrop-filter: blur(10px);
+      font-size:13px; color:rgba(11,15,25,.78);
+    }
+    .dot{
+      width:8px;height:8px;border-radius:999px;
+      background:linear-gradient(135deg,var(--brand-blue),var(--brand-yellow));
+      box-shadow:0 0 0 6px rgba(11,87,208,.08);
+    }
+    h1,h2,h3{margin:0}
+    p{margin:0; color:var(--muted); line-height:1.55}
+
+    /* Topbar */
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      border-bottom:1px solid rgba(15,23,42,.08);
+      background:rgba(255,255,255,.72);
+      backdrop-filter: blur(14px);
+      transform: translateZ(0);
+    }
+    .topbar.scrolled{
+      background:rgba(255,255,255,.86);
+      border-bottom-color: rgba(15,23,42,.12);
+    }
+    .nav{
+      height:72px;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:800; letter-spacing:-.03em;
+    }
+   
+    .navlinks{
+      display:flex; gap:18px; align-items:center;
+      font-weight:600; font-size:14px; color:rgba(11,15,25,.78);
+    }
+    .navlinks a{
+      padding:10px 10px; border-radius:12px;
+      transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+    }
+    .navlinks a:hover{background:rgba(15,23,42,.06); color:rgba(11,15,25,.92)}
+    .actions{display:flex; gap:10px; align-items:center}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
+      padding:12px 16px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:#fff;
+      font-weight:700;
+      font-size:14px;
+      transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
+      cursor:pointer;
+      user-select:none;
+    }
+    .btn:hover{transform: translateY(-1px); box-shadow: 0 14px 28px rgba(2,8,23,.10)}
+    .btn:active{transform: translateY(0)}
+    .btn.primary{
+      border-color: rgba(11,87,208,.22);
+      background: linear-gradient(135deg, rgba(11,87,208,.10), rgba(247,201,72,.12));
+    }
+    .btn.solid{
+      border-color: transparent;
+      color:#fff;
+      background: linear-gradient(135deg, var(--brand-blue), #1e6cf0);
+      box-shadow: 0 18px 46px rgba(11,87,208,.26);
+    }
+    .btn.solid:hover{box-shadow: 0 26px 64px rgba(11,87,208,.28)}
+    .btn:focus-visible{
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(11,87,208,.18), 0 0 0 1px rgba(11,87,208,.35);
+    }
+
+    /* Mobile nav */
+    .menu-btn{display:none}
+    .drawer{
+      position:fixed; inset:0; z-index:60;
+      pointer-events:none;
+      opacity:0;
+      transition: opacity var(--t) var(--ease);
+    }
+    .drawer.open{opacity:1; pointer-events:auto}
+    .drawer .backdrop{
+      position:absolute; inset:0;
+      background:rgba(2,8,23,.46);
+      backdrop-filter: blur(8px);
+    }
+    .drawer .panel{
+      position:absolute; top:16px; right:16px; left:16px;
+      border-radius: 22px;
+      background:rgba(255,255,255,.92);
+      border:1px solid rgba(15,23,42,.12);
+      box-shadow: var(--shadow);
+      padding:14px;
+      transform: translateY(-8px);
+      transition: transform var(--t) var(--ease);
+    }
+    .drawer.open .panel{transform: translateY(0)}
+    .drawer a{
+      display:block;
+      padding:12px 12px;
+      border-radius:14px;
+      font-weight:700;
+      color:rgba(11,15,25,.84);
+    }
+    .drawer a:hover{background:rgba(15,23,42,.06)}
+
+    /* Hero */
+    .hero{padding:86px 0 34px}
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:30px;
+      align-items:start;
+    }
+    .hero h1{
+      font-size: clamp(38px, 4.2vw, 62px);
+      letter-spacing:-.05em;
+      line-height:1.02;
+      margin-top:14px;
+    }
+    .grad{
+      background: linear-gradient(135deg, var(--brand-blue), #2b7bff 55%, var(--brand-yellow));
+      -webkit-background-clip:text; background-clip:text;
+      color:transparent;
+    }
+    .hero p{
+      font-size:16px;
+      margin-top:14px;
+      max-width: 52ch;
+    }
+    .hero-ctas{
+      display:flex; gap:12px; flex-wrap:wrap;
+      margin-top:18px;
+    }
+    .trust{
+      display:flex; gap:14px; flex-wrap:wrap;
+      margin-top:18px;
+      color:rgba(11,15,25,.72);
+      font-size:13px;
+    }
+    .trust .pill{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.65);
+      backdrop-filter: blur(10px);
+      padding:8px 10px;
+      border-radius:999px;
+      display:inline-flex; align-items:center; gap:8px;
+    }
+    .icon{
+      width:18px; height:18px; border-radius:6px;
+      background:linear-gradient(135deg, rgba(11,87,208,.18), rgba(247,201,72,.22));
+      border:1px solid rgba(15,23,42,.10);
+    }
+
+    .hero-card{
+      border:1px solid rgba(15,23,42,.12);
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,.78);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+      padding:18px;
+      position:sticky;
+      top:98px;
+    }
+    .hero-card .meta{
+      display:flex; gap:10px; align-items:center; justify-content:space-between;
+      padding-bottom:12px; border-bottom:1px solid rgba(15,23,42,.10);
+      margin-bottom:12px;
+    }
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px; border-radius:999px;
+      border:1px solid rgba(11,87,208,.20);
+      background: rgba(11,87,208,.08);
+      font-weight:800; font-size:12px;
+    }
+    .metric{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    .metric .box{
+      border:1px solid rgba(15,23,42,.10);
+      border-radius: 16px;
+      background: rgba(255,255,255,.82);
+      padding:12px;
+      transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+    }
+    .metric .box:hover{transform: translateY(-2px); box-shadow: 0 14px 28px rgba(2,8,23,.08)}
+    .metric .n{
+      font-weight:900;
+      letter-spacing:-.03em;
+      font-size:22px;
+    }
+    .metric .l{font-size:12px; color:rgba(11,15,25,.70); margin-top:4px}
+
+    /* Feature cards */
+    .grid3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+      margin-top:22px;
+    }
+    .card{
+      border:1px solid rgba(15,23,42,.12);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.82);
+      padding:18px;
+      box-shadow: 0 10px 30px rgba(2,8,23,.06);
+      transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
+    }
+    .card:hover{
+      transform: translateY(-3px);
+      box-shadow: 0 18px 60px rgba(2,8,23,.10);
+      border-color: rgba(11,87,208,.20);
+    }
+    .card h3{font-size:16px; letter-spacing:-.02em}
+    .card p{margin-top:8px; font-size:14px}
+
+    /* Split section */
+    .split{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:22px;
+      align-items:center;
+      margin-top:22px;
+    }
+    .panel{
+      border:1px solid rgba(15,23,42,.12);
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,.86);
+      padding:22px;
+      box-shadow: 0 12px 40px rgba(2,8,23,.08);
+    }
+    .list{
+      margin-top:12px;
+      display:grid;
+      gap:10px;
+    }
+    .li{
+      display:flex; gap:10px; align-items:flex-start;
+      padding:12px;
+      border:1px solid rgba(15,23,42,.10);
+      border-radius: 16px;
+      background: rgba(246,247,251,.65);
+    }
+    .check{
+      width:20px;height:20px;border-radius:8px;
+      background: linear-gradient(135deg, rgba(11,87,208,.22), rgba(247,201,72,.22));
+      border:1px solid rgba(15,23,42,.12);
+      flex:0 0 auto;
+      margin-top:2px;
+    }
+    .li b{display:block; font-size:14px; letter-spacing:-.01em}
+    .li span{display:block; font-size:13px; color:rgba(11,15,25,.72); margin-top:2px}
+
+    /* Pricing */
+    .pricing{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+      margin-top:22px;
+    }
+    .price{
+      border:1px solid rgba(15,23,42,.12);
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,.88);
+      padding:18px;
+      box-shadow: 0 12px 40px rgba(2,8,23,.08);
+      transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
+      position:relative;
+      overflow:hidden;
+    }
+    .price:hover{transform: translateY(-3px); box-shadow: 0 18px 60px rgba(2,8,23,.10)}
+    .price .top{display:flex; justify-content:space-between; align-items:center}
+    .tag{
+      font-weight:900; font-size:11px; letter-spacing:.06em;
+      padding:8px 10px; border-radius:999px;
+      background: rgba(247,201,72,.18);
+      border:1px solid rgba(247,201,72,.38);
+    }
+    .price h3{font-size:16px; letter-spacing:-.02em; margin-top:10px}
+    .price .val{
+      margin-top:10px;
+      font-size:30px;
+      font-weight:900;
+      letter-spacing:-.04em;
+    }
+    .price .val small{font-size:12px; font-weight:800; color:rgba(11,15,25,.66)}
+    .price ul{
+      margin:12px 0 0;
+      padding:0;
+      list-style:none;
+      display:grid;
+      gap:10px;
+      color:rgba(11,15,25,.76);
+      font-size:13px;
+    }
+    .price li{display:flex; gap:10px; align-items:flex-start}
+    .price li:before{
+      content:"";
+      width:10px;height:10px;border-radius:999px;
+      margin-top:4px;
+      background: linear-gradient(135deg, var(--brand-blue), var(--brand-yellow));
+      flex:0 0 auto;
+    }
+    .price .cta{margin-top:14px; width:100%}
+    .price.featured{
+      border-color: rgba(11,87,208,.22);
+      background:
+        radial-gradient(700px 500px at 10% 0%, rgba(11,87,208,.14), transparent 55%),
+        radial-gradient(500px 400px at 90% 10%, rgba(247,201,72,.18), transparent 60%),
+        rgba(255,255,255,.92);
+    }
+    .price.featured:after{
+      content:"";
+      position:absolute; inset:-120px -120px auto auto;
+      width:240px; height:240px;
+      background: radial-gradient(circle, rgba(247,201,72,.40), transparent 60%);
+      filter: blur(8px);
+      transform: rotate(15deg);
+      pointer-events:none;
+    }
+
+    /* Teachers */
+    .teachers{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:14px;
+      margin-top:22px;
+    }
+    .tcard{
+      border:1px solid rgba(15,23,42,.12);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.86);
+      padding:14px;
+      transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+      box-shadow: 0 12px 40px rgba(2,8,23,.06);
+    }
+    .tcard:hover{transform: translateY(-3px); box-shadow: 0 18px 60px rgba(2,8,23,.10)}
+    .avatar{
+      width:44px;height:44px;border-radius:14px;
+      background: linear-gradient(135deg, rgba(11,87,208,.16), rgba(247,201,72,.20));
+      border:1px solid rgba(15,23,42,.12);
+    }
+    .tname{font-weight:900; letter-spacing:-.02em; margin-top:10px; font-size:14px}
+    .tsub{font-size:12px; color:rgba(11,15,25,.68); margin-top:4px}
+    .chips{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+    .chip{
+      font-size:11px;
+      padding:7px 9px;
+      border-radius:999px;
+      border:1px solid rgba(15,23,42,.10);
+      background: rgba(246,247,251,.72);
+      color:rgba(11,15,25,.78);
+      font-weight:700;
+    }
+
+    /* Testimonials (snap carousel) */
+    .carousel{
+      margin-top:22px;
+      position:relative;
+    }
+    .track{
+      display:flex;
+      gap:12px;
+      overflow:auto;
+      scroll-snap-type:x mandatory;
+      padding: 4px 4px 14px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .track::-webkit-scrollbar{height:10px}
+    .track::-webkit-scrollbar-thumb{background: rgba(15,23,42,.14); border-radius:999px}
+    .quote{
+      flex: 0 0 360px;
+      scroll-snap-align:start;
+      border:1px solid rgba(15,23,42,.12);
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,.88);
+      box-shadow: 0 12px 40px rgba(2,8,23,.06);
+      padding:18px;
+      transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+    }
+    .quote:hover{transform: translateY(-2px); box-shadow: 0 18px 60px rgba(2,8,23,.10)}
+    .quote .who{
+      margin-top:12px;
+      display:flex; justify-content:space-between; align-items:center;
+      color:rgba(11,15,25,.70);
+      font-size:12px;
+      font-weight:700;
+    }
+    .nav-arrows{
+      display:flex; gap:10px; justify-content:flex-end; margin-top:10px;
+    }
+
+    /* FAQ */
+    .faq{
+      margin-top:22px;
+      display:grid;
+      gap:10px;
+    }
+    details{
+      border:1px solid rgba(15,23,42,.12);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.86);
+      padding:14px 16px;
+      box-shadow: 0 12px 40px rgba(2,8,23,.05);
+    }
+    summary{
+      cursor:pointer;
+      font-weight:900;
+      letter-spacing:-.02em;
+      list-style:none;
+    }
+    summary::-webkit-details-marker{display:none}
+    details p{margin-top:10px; font-size:14px}
+
+    /* Contact */
+    .contact{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+      margin-top:22px;
+    }
+    .form{
+      border:1px solid rgba(15,23,42,.12);
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,.90);
+      box-shadow: 0 12px 40px rgba(2,8,23,.06);
+      padding:18px;
+    }
+    label{font-size:12px; font-weight:800; color:rgba(11,15,25,.72)}
+    input, textarea{
+      width:100%;
+      margin-top:8px;
+      padding:12px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(15,23,42,.14);
+      background: rgba(246,247,251,.70);
+      font: inherit;
+      outline:none;
+      transition: border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+    }
+    input:focus, textarea:focus{
+      border-color: rgba(11,87,208,.35);
+      box-shadow: 0 0 0 4px rgba(11,87,208,.14);
+      background:#fff;
+    }
+    textarea{min-height:120px; resize:vertical}
+    .form .row{display:grid; grid-template-columns: 1fr 1fr; gap:10px}
+    .note{font-size:12px; color:rgba(11,15,25,.62); margin-top:10px}
+
+    /* Footer */
+    footer{
+      padding:34px 0 46px;
+      border-top:1px solid rgba(15,23,42,.10);
+      background: linear-gradient(180deg, #fff, var(--bg-2));
+    }
+    .foot{
+      display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;
+      color:rgba(11,15,25,.72);
+      font-size:13px;
+    }
+    .foot a{font-weight:800}
+
+    /* Motion: reveal */
+    .reveal{
+      opacity:0;
+      transform: translateY(10px);
+      transition: opacity var(--t-slow) var(--ease), transform var(--t-slow) var(--ease);
+      will-change: opacity, transform;
+    }
+    .reveal.in{
+      opacity:1;
+      transform: translateY(0);
+    }
+
+    /* Page transition overlay (para navegação interna) */
+    .transition{
+      position:fixed; inset:0; z-index:80;
+      pointer-events:none;
+      opacity:0;
+      background: radial-gradient(900px 600px at 50% 10%,
+        rgba(11,87,208,.16), rgba(255,255,255,.0) 58%),
+        radial-gradient(700px 500px at 60% 40%,
+        rgba(247,201,72,.16), rgba(255,255,255,.0) 60%),
+        rgba(255,255,255,.86);
+      backdrop-filter: blur(14px);
+      transition: opacity 220ms var(--ease);
+    }
+    .transition.on{opacity:1}
+
+    /* WhatsApp FAB */
+    .fab{
+      position:fixed;
+      right:16px; bottom:16px;
+      z-index:70;
+      display:flex; align-items:center; gap:10px;
+      padding:12px 14px;
+      border-radius: 999px;
+      border:1px solid rgba(15,23,42,.12);
+      background: rgba(255,255,255,.88);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+    }
+    .fab:hover{transform: translateY(-2px); box-shadow: 0 20px 70px rgba(2,8,23,.14)}
+    .waball{
+      width:14px;height:14px;border-radius:999px;
+      background: linear-gradient(135deg, var(--brand-yellow), var(--brand-blue));
+    }
+    .fab span{font-weight:900; font-size:13px}
+    .fab small{display:block; color:rgba(11,15,25,.62); font-weight:700; font-size:11px; margin-top:2px}
+
+    /* Responsivo */
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns: 1fr; gap:14px}
+      .hero-card{position:relative; top:auto}
+      .grid3{grid-template-columns: 1fr; }
+      .split{grid-template-columns: 1fr}
+      .pricing{grid-template-columns: 1fr}
+      .teachers{grid-template-columns: 1fr 1fr}
+      .contact{grid-template-columns: 1fr}
+      .navlinks{display:none}
+      .menu-btn{display:inline-flex}
+      .nav{height:68px}
+    }
+    @media (prefers-reduced-motion: reduce){
+      html{scroll-behavior:auto}
+      .btn, .card, .tcard, .price, .quote, .reveal, .drawer, .transition{transition:none !important}
+      .reveal{opacity:1; transform:none}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="transition" id="transition" aria-hidden="true"></div>
+
+  <header class="topbar" id="topbar">
+    <div class="container">
+      <div class="nav">
+        <a class="brand" href="#top" data-nav>
+          <span class="brand-badge" aria-hidden="true"></span>
+          <span>+Potencial</span>
+        </a>
+
+        <nav class="navlinks" aria-label="Navegação principal">
+          <a href="#metodo" data-nav>Metodologia</a>
+          <a href="#turmas" data-nav>Turmas</a>
+          <a href="#professores" data-nav>Professores</a>
+          <a href="#depoimentos" data-nav>Depoimentos</a>
+          <a href="#faq" data-nav>FAQ</a>
+          <a href="#contato" data-nav>Contato</a>
+        </nav>
+
+        <div class="actions">
+          <button class="btn menu-btn" id="openMenu" aria-label="Abrir menu">Menu</button>
+          <a class="btn primary" href="#turmas" data-nav>Ver turmas</a>
+          <a class="btn solid" id="ctaWhatsTop" href="#" rel="noopener">WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile drawer -->
+  <div class="drawer" id="drawer" aria-hidden="true">
+    <div class="backdrop" id="drawerBackdrop"></div>
+    <div class="panel" role="dialog" aria-modal="true" aria-label="Menu">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; padding:6px 6px 10px;">
+        <div class="brand" style="gap:10px;">
+          <span class="brand-badge" aria-hidden="true" style="width:30px;height:30px;border-radius:12px;"></span>
+          <span style="font-weight:900">+Potencial</span>
+        </div>
+        <button class="btn" id="closeMenu" aria-label="Fechar menu">Fechar</button>
+      </div>
+      <a href="#metodo" data-nav>Metodologia</a>
+      <a href="#turmas" data-nav>Turmas</a>
+      <a href="#professores" data-nav>Professores</a>
+      <a href="#depoimentos" data-nav>Depoimentos</a>
+      <a href="#faq" data-nav>FAQ</a>
+      <a href="#contato" data-nav>Contato</a>
+      <div style="display:flex; gap:10px; padding:12px 8px 6px;">
+        <a class="btn primary" href="#turmas" data-nav style="flex:1;">Ver turmas</a>
+        <a class="btn solid" id="ctaWhatsDrawer" href="#" style="flex:1;" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="reveal">
+            <span class="kicker"><span class="dot"></span> Ensino que vira hábito. Hábito que vira resultado.</span>
+            <h1>
+              Estude com clareza.
+              <span class="grad">Evolua com constância.</span>
+            </h1>
+            <p>
+              O +Potencial é um cursinho focado em organização, didática e acompanhamento. Menos “maratona” e mais “processo que funciona”.
+            </p>
+
+            <div class="hero-ctas">
+              <a class="btn solid" href="#contato" data-nav>Quero me matricular</a>
+              <a class="btn primary" href="#metodo" data-nav>Ver metodologia</a>
+            </div>
+
+            <div class="trust" aria-label="Prova social">
+              <span class="pill"><span class="icon" aria-hidden="true"></span> Aulas objetivas</span>
+              <span class="pill"><span class="icon" aria-hidden="true"></span> Rotina guiada</span>
+              <span class="pill"><span class="icon" aria-hidden="true"></span> Acompanhamento</span>
+            </div>
+
+            <div class="grid3">
+              <div class="card reveal">
+                <h3>Diagnóstico rápido</h3>
+                <p>Você entende o que falta e para onde vai — sem achismo.</p>
+              </div>
+              <div class="card reveal">
+                <h3>Plano de estudo realista</h3>
+                <p>Consistência ganha de intensidade aleatória, sempre.</p>
+              </div>
+              <div class="card reveal">
+                <h3>Correção e feedback</h3>
+                <p>Aprender sem retorno é tipo GPS sem mapa.</p>
+              </div>
+            </div>
+          </div>
+
+          <aside class="hero-card reveal" aria-label="Resumo rápido">
+            <div class="meta">
+              <span class="badge"><span class="dot"></span> Vagas limitadas</span>
+              <span style="font-weight:800; color:rgba(11,15,25,.62); font-size:12px;">2026</span>
+            </div>
+            <p style="margin-top:2px">
+              Turmas organizadas por nível e objetivo. Você entra sabendo o que fazer e quando fazer.
+            </p>
+
+            <div class="metric">
+              <div class="box">
+                <div class="n">2x</div>
+                <div class="l">mais clareza de rotina</div>
+              </div>
+              <div class="box">
+                <div class="n">100%</div>
+                <div class="l">foco no essencial</div>
+              </div>
+              <div class="box">
+                <div class="n">Sem</div>
+                <div class="l">aula “encheção”</div>
+              </div>
+              <div class="box">
+                <div class="n">Com</div>
+                <div class="l">feedback de verdade</div>
+              </div>
+            </div>
+
+            <div style="margin-top:14px; display:flex; gap:10px;">
+              <a class="btn primary" href="#turmas" data-nav style="flex:1;">Planos</a>
+              <a class="btn solid" href="#contato" data-nav style="flex:1;">Falar agora</a>
+            </div>
+
+            <p class="note">Você pode trocar todos os textos depois. A estrutura e o motion já estão prontos.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="metodo">
+      <div class="container">
+        <div class="reveal">
+          <span class="kicker"><span class="dot"></span> Metodologia</span>
+          <h2 style="font-size:34px; letter-spacing:-.04em; margin-top:10px;">Um método simples. Bem executado.</h2>
+          <p style="margin-top:10px; max-width:70ch;">
+            A ideia é tirar fricção do estudo: você tem roteiro, prática, correção e repetição inteligente. Sem “milagre”, com processo.
+          </p>
+        </div>
+
+        <div class="split">
+          <div class="panel reveal">
+            <h3 style="font-size:18px; letter-spacing:-.02em;">O que acontece na semana</h3>
+            <div class="list">
+              <div class="li">
+                <div class="check" aria-hidden="true"></div>
+                <div><b>Aula objetiva</b><span>Conteúdo direto ao ponto, com exemplos e pegadinhas.</span></div>
+              </div>
+              <div class="li">
+                <div class="check" aria-hidden="true"></div>
+                <div><b>Prática guiada</b><span>Exercícios que constroem confiança (e não só sofrimento).</span></div>
+              </div>
+              <div class="li">
+                <div class="check" aria-hidden="true"></div>
+                <div><b>Feedback e ajuste</b><span>Você corrige o rumo enquanto está aprendendo.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel reveal">
+            <h3 style="font-size:18px; letter-spacing:-.02em;">Para quem é</h3>
+            <div class="list">
+              <div class="li">
+                <div class="check" aria-hidden="true"></div>
+                <div><b>Quem precisa de organização</b><span>Rotina clara e repetível, sem depender de motivação.</span></div>
+              </div>
+              <div class="li">
+                <div class="check" aria-hidden="true"></div>
+                <div><b>Quem quer avançar rápido</b><span>Foco em base sólida e progressão mensurável.</span></div>
+              </div>
+              <div class="li">
+                <div class="check" aria-hidden="true"></div>
+                <div><b>Quem cansou de “estudar e não render”</b><span>Mais estratégia, menos volume sem direção.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section" id="turmas">
+      <div class="container">
+        <div class="reveal">
+          <span class="kicker"><span class="dot"></span> Turmas e planos</span>
+          <h2 style="font-size:34px; letter-spacing:-.04em; margin-top:10px;">Escolha um plano e ajuste depois.</h2>
+          <p style="margin-top:10px; max-width:70ch;">
+            Valores, horários e detalhes você edita depois. O que importa aqui é a estrutura: clareza de oferta e comparação sem confusão.
+          </p>
+        </div>
+
+        <div class="pricing">
+          <div class="price reveal">
+            <div class="top">
+              <b style="font-weight:900; letter-spacing:-.02em;">Essencial</b>
+              <span class="tag">COMEÇAR</span>
+            </div>
+            <h3>Base forte + rotina</h3>
+            <div class="val">R$ <span class="grad">---</span> <small>/mês</small></div>
+            <ul>
+              <li>Aulas semanais</li>
+              <li>Lista de exercícios</li>
+              <li>Plano de estudos</li>
+              <li>Suporte básico</li>
+            </ul>
+            <a class="btn primary cta" href="#contato" data-nav>Quero este</a>
+          </div>
+
+          <div class="price featured reveal">
+            <div class="top">
+              <b style="font-weight:900; letter-spacing:-.02em;">Avançado</b>
+              <span class="tag">MAIS ESCOLHIDO</span>
+            </div>
+            <h3>Acompanhamento + feedback</h3>
+            <div class="val">R$ <span class="grad">---</span> <small>/mês</small></div>
+            <ul>
+              <li>Aulas + revisões</li>
+              <li>Simulados</li>
+              <li>Correção e feedback</li>
+              <li>Suporte prioritário</li>
+            </ul>
+            <a class="btn solid cta" href="#contato" data-nav>Quero este</a>
+          </div>
+
+          <div class="price reveal">
+            <div class="top">
+              <b style="font-weight:900; letter-spacing:-.02em;">Mentoria</b>
+              <span class="tag">TOP</span>
+            </div>
+            <h3>Plano individual</h3>
+            <div class="val">R$ <span class="grad">---</span> <small>/mês</small></div>
+            <ul>
+              <li>Roteiro personalizado</li>
+              <li>Metas semanais</li>
+              <li>Correções focadas</li>
+              <li>Revisões inteligentes</li>
+            </ul>
+            <a class="btn primary cta" href="#contato" data-nav>Quero este</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="professores">
+      <div class="container">
+        <div class="reveal">
+          <span class="kicker"><span class="dot"></span> Professores</span>
+          <h2 style="font-size:34px; letter-spacing:-.04em; margin-top:10px;">Didática primeiro. Conteúdo depois rende.</h2>
+          <p style="margin-top:10px; max-width:70ch;">
+            Substitua nomes, matérias e fotos quando quiser. Os cards já estão no padrão premium e responsivo.
+          </p>
+        </div>
+
+        <div class="teachers">
+          <div class="tcard reveal">
+            <div class="avatar" aria-hidden="true"></div>
+            <div class="tname">Professor(a) 1</div>
+            <div class="tsub">Matemática • Base e resolução</div>
+            <div class="chips">
+              <span class="chip">Exercícios</span><span class="chip">Estratégia</span><span class="chip">Revisão</span>
+            </div>
+          </div>
+
+          <div class="tcard reveal">
+            <div class="avatar" aria-hidden="true"></div>
+            <div class="tname">Professor(a) 2</div>
+            <div class="tsub">Português • Interpretação</div>
+            <div class="chips">
+              <span class="chip">Leitura</span><span class="chip">Redação</span><span class="chip">Gramática</span>
+            </div>
+          </div>
+
+          <div class="tcard reveal">
+            <div class="avatar" aria-hidden="true"></div>
+            <div class="tname">Professor(a) 3</div>
+            <div class="tsub">Naturezas • Raciocínio</div>
+            <div class="chips">
+              <span class="chip">Conceitos</span><span class="chip">Aplicação</span><span class="chip">Simulados</span>
+            </div>
+          </div>
+
+          <div class="tcard reveal">
+            <div class="avatar" aria-hidden="true"></div>
+            <div class="tname">Professor(a) 4</div>
+            <div class="tsub">Humanas • Contexto</div>
+            <div class="chips">
+              <span class="chip">Mapas mentais</span><span class="chip">Revisão</span><span class="chip">Provas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="depoimentos">
+      <div class="container">
+        <div class="reveal">
+          <span class="kicker"><span class="dot"></span> Depoimentos</span>
+          <h2 style="font-size:34px; letter-spacing:-.04em; margin-top:10px;">Resultados que parecem simples. Porque são.</h2>
+          <p style="margin-top:10px; max-width:70ch;">
+            Carrossel com scroll snap (Apple vibe). No mobile, arrasta com o dedo.
+          </p>
+        </div>
+
+        <div class="carousel reveal">
+          <div class="track" id="track" aria-label="Depoimentos">
+            <article class="quote">
+              <p>“Eu finalmente tive rotina. O estudo parou de ser ‘quando dá’ e virou ‘todo dia’.”</p>
+              <div class="who"><span>Aluno(a) • Objetivo</span><span>★★★★★</span></div>
+            </article>
+            <article class="quote">
+              <p>“A diferença foi o feedback: eu corrigia o erro na semana, não no mês seguinte.”</p>
+              <div class="who"><span>Aluno(a) • Prova</span><span>★★★★★</span></div>
+            </article>
+            <article class="quote">
+              <p>“Menos conteúdo aleatório e mais direção. Meu desempenho ficou previsível (no bom sentido).”</p>
+              <div class="who"><span>Aluno(a) • Evolução</span><span>★★★★★</span></div>
+            </article>
+            <article class="quote">
+              <p>“O método é simples, mas a execução é caprichada. Parece ‘premium’ mesmo.”</p>
+              <div class="who"><span>Aluno(a) • Rotina</span><span>★★★★★</span></div>
+            </article>
+          </div>
+
+          <div class="nav-arrows">
+            <button class="btn" id="prev" aria-label="Anterior">←</button>
+            <button class="btn" id="next" aria-label="Próximo">→</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="faq">
+      <div class="container">
+        <div class="reveal">
+          <span class="kicker"><span class="dot"></span> FAQ</span>
+          <h2 style="font-size:34px; letter-spacing:-.04em; margin-top:10px;">Perguntas comuns</h2>
+          <p style="margin-top:10px; max-width:70ch;">
+            Troque as perguntas e respostas conforme seu modelo real.
+          </p>
+        </div>
+
+        <div class="faq reveal">
+          <details>
+            <summary>Como funcionam as turmas?</summary>
+            <p>Você pode organizar por nível (base/intermediário/avançado) ou por objetivo. O site já está pronto para qualquer um dos dois.</p>
+          </details>
+          <details>
+            <summary>Tem material e lista de exercícios?</summary>
+            <p>Sim. Você pode listar aqui o que inclui: PDF, plataforma, simulados, correções e suporte.</p>
+          </details>
+          <details>
+            <summary>Como faço para me matricular?</summary>
+            <p>Use o formulário abaixo ou o WhatsApp. A ação do formulário já abre uma mensagem pronta no WhatsApp.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contato">
+      <div class="container">
+        <div class="reveal">
+          <span class="kicker"><span class="dot"></span> Contato</span>
+          <h2 style="font-size:34px; letter-spacing:-.04em; margin-top:10px;">Vamos montar sua rotina.</h2>
+          <p style="margin-top:10px; max-width:70ch;">
+            Formulário com UX limpa + CTA WhatsApp. Se quiser, depois dá para plugar em email, CRM ou Google Forms.
+          </p>
+        </div>
+
+        <div class="contact">
+          <div class="panel reveal">
+            <h3 style="font-size:18px; letter-spacing:-.02em;">Atendimento</h3>
+            <p style="margin-top:10px;">Horários, cidade e endereço você edita depois.</p>
+            <div class="list">
+              <div class="li">
+                <div class="check" aria-hidden="true"></div>
+                <div><b>WhatsApp</b><span id="whatsLabel">55 99 99999-9999</span></div>
+              </div>
+              <div class="li">
+                <div class="check" aria-hidden="true"></div>
+                <div><b>Local</b><span>Sua cidade • Seu estado</span></div>
+              </div>
+              <div class="li">
+                <div class="check" aria-hidden="true"></div>
+                <div><b>Modalidade</b><span>Online • Presencial • Híbrido</span></div>
+              </div>
+            </div>
+          </div>
+
+          <form class="form reveal" id="leadForm">
+            <div class="row">
+              <div>
+                <label for="nome">Nome</label>
+                <input id="nome" name="nome" placeholder="Seu nome" required />
+              </div>
+              <div>
+                <label for="objetivo">Objetivo</label>
+                <input id="objetivo" name="objetivo" placeholder="ENEM, vestibular, reforço…" required />
+              </div>
+            </div>
+
+            <div style="margin-top:10px">
+              <label for="msg">Mensagem</label>
+              <textarea id="msg" name="msg" placeholder="Me conte sua rotina e dificuldades…"></textarea>
+            </div>
+
+            <button class="btn solid" type="submit" style="width:100%; margin-top:12px;">Enviar no WhatsApp</button>
+            <p class="note">Ao enviar, abre uma conversa com mensagem preenchida.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="foot">
+        <div><b style="font-weight:900">+Potencial</b> • © <span id="year"></span></div>
+        <div style="display:flex; gap:14px; flex-wrap:wrap;">
+          <a href="#metodo" data-nav>Metodologia</a>
+          <a href="#turmas" data-nav>Turmas</a>
+          <a href="#contato" data-nav>Contato</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <a class="fab" id="fabWhats" href="#" rel="noopener" aria-label="Abrir WhatsApp">
+    <span class="waball" aria-hidden="true"></span>
+    <div>
+      <span>WhatsApp</span>
+      <small>Responder rápido</small>
+    </div>
+  </a>
+
+  <script>
+    // ====== CONFIG (edite aqui) ======
+    const BRAND_NAME = "+Potencial";
+    const WHATS_NUMBER_E164 = "5599999999999"; // coloque seu número com DDI+DDD, só números. Ex: 5511999999999
+    const WHATS_DEFAULT_MESSAGE = "Oi! Quero informações sobre o +Potencial. Pode me ajudar?";
+    // =================================
+
+    const topbar = document.getElementById("topbar");
+    const transition = document.getElementById("transition");
+
+    const buildWhatsLink = (text) => {
+      const msg = encodeURIComponent(text);
+      return `https://wa.me/${WHATS_NUMBER_E164}?text=${msg}`;
+    };
+
+    const ctaWhatsTop = document.getElementById("ctaWhatsTop");
+    const ctaWhatsDrawer = document.getElementById("ctaWhatsDrawer");
+    const fabWhats = document.getElementById("fabWhats");
+    const whatsLabel = document.getElementById("whatsLabel");
+
+    const whatsHref = buildWhatsLink(WHATS_DEFAULT_MESSAGE);
+    ctaWhatsTop.href = whatsHref;
+    ctaWhatsDrawer.href = whatsHref;
+    fabWhats.href = whatsHref;
+
+    // label simples (não é máscara perfeita, mas serve)
+    const pretty = WHATS_NUMBER_E164.replace(/^55/, "55 ");
+    whatsLabel.textContent = pretty;
+
+    // Navbar effect
+    const onScroll = () => {
+      if (window.scrollY > 10) topbar.classList.add("scrolled");
+      else topbar.classList.remove("scrolled");
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    // Drawer (mobile)
+    const drawer = document.getElementById("drawer");
+    const openMenu = document.getElementById("openMenu");
+    const closeMenu = document.getElementById("closeMenu");
+    const drawerBackdrop = document.getElementById("drawerBackdrop");
+
+    const openDrawer = () => {
+      drawer.classList.add("open");
+      drawer.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    };
+    const closeDrawer = () => {
+      drawer.classList.remove("open");
+      drawer.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    };
+
+    openMenu?.addEventListener("click", openDrawer);
+    closeMenu?.addEventListener("click", closeDrawer);
+    drawerBackdrop?.addEventListener("click", closeDrawer);
+
+    // Page transition for internal nav
+    const internalNav = (href) => {
+      const id = href.startsWith("#") ? href : null;
+      if (!id) return;
+
+      const el = document.querySelector(id);
+      if (!el) return;
+
+      transition.classList.add("on");
+      window.setTimeout(() => {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        window.setTimeout(() => transition.classList.remove("on"), 260);
+      }, 160);
+    };
+
+    document.querySelectorAll("[data-nav]").forEach(a => {
+      a.addEventListener("click", (e) => {
+        const href = a.getAttribute("href");
+        if (href && href.startsWith("#")) {
+          e.preventDefault();
+          closeDrawer();
+          internalNav(href);
+        }
+      });
+    });
+
+    // Reveal on scroll
+    const revealEls = document.querySelectorAll(".reveal");
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("in");
+      });
+    }, { threshold: 0.14 });
+    revealEls.forEach(el => io.observe(el));
+
+    // Testimonials arrows
+    const track = document.getElementById("track");
+    const prev = document.getElementById("prev");
+    const next = document.getElementById("next");
+    const step = 380;
+
+    prev?.addEventListener("click", () => track.scrollBy({ left: -step, behavior: "smooth" }));
+    next?.addEventListener("click", () => track.scrollBy({ left: step, behavior: "smooth" }));
+
+    // Contact form -> WhatsApp message
+    const form = document.getElementById("leadForm");
+    form?.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nome = document.getElementById("nome").value.trim();
+      const objetivo = document.getElementById("objetivo").value.trim();
+      const msg = document.getElementById("msg").value.trim();
+
+      const text =
+        `Oi! Eu sou ${nome}.\n` +
+        `Objetivo: ${objetivo}.\n` +
+        (msg ? `Mensagem: ${msg}\n` : "") +
+        `Quero informações sobre o ${BRAND_NAME}.`;
+
+      window.open(buildWhatsLink(text), "_blank", "noopener,noreferrer");
+    });
+
+    // Year
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

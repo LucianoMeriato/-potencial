@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="+Potencial Ensino Multidisciplinar — estudo guiado para transformar esforço em aprovações reais." />
+  <title>+Potencial Ensino Multidisciplinar</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      --brand-blue:#0B57D0;
+      --brand-yellow:#F7C948;
+
+      --bg:#ffffff;
+      --bg-2:#f6f7fb;
+      --text:#0b0f19;
+      --muted:rgba(11,15,25,.72);
+      --border:rgba(15,23,42,.12);
+
+      --radius:18px;
+      --radius-lg:28px;
+      --shadow:0 22px 70px rgba(2, 8, 23, .12);
+
+      --ease:cubic-bezier(.2,.8,.2,1);
+      --t-fast:240ms;
+      --t:420ms;
+      --t-slow:980ms;
+
+      --container:1440px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 800px at 20% -10%, rgba(11,87,208,.10), transparent 55%),
+        radial-gradient(900px 700px at 90% 10%, rgba(247,201,72,.12), transparent 55%),
+        linear-gradient(#fff,#fff);
+      overflow-x:hidden;
+    }
+    a{color:inherit;text-decoration:none}
+
+    .container{max-width:var(--container); margin:0 auto; padding:0 28px}
+    .section{padding:96px 0}
+    .section.alt{background:linear-gradient(180deg,var(--bg-2),#fff)}
+
+    .kicker{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:8px 12px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      background:rgba(255,255,255,.70);
+      backdrop-filter: blur(12px);
+      font-size:13px;
+      color:rgba(11,15,25,.78);
+      font-weight:700;
+    }
+    .dot{
+      width:8px;height:8px;border-radius:999px;
+      background:linear-gradient(135deg,var(--brand-blue),var(--brand-yellow));
+      box-shadow:0 0 0 6px rgba(11,87,208,.08);
+    }
+
+    h1,h2,h3{margin:0}
+    p{margin:0; color:var(--muted); line-height:1.6}
+
+    /* Topbar */
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      border-bottom:1px solid rgba(15,23,42,.08);
+      background:rgba(255,255,255,.72);
+      backdrop-filter: blur(14px);
+    }
+    .topbar.scrolled{
+      background:rgba(255,255,255,.90);
+      border-bottom-color: rgba(15,23,42,.12);
+    }
+    .nav{
+      height:78px;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:900; letter-spacing:-.03em;
+    }
+
+    .brand #brandText{
+      font-weight:950;
+      letter-spacing:-.05em;
+      background: linear-gradient(135deg, var(--brand-blue), #2b7bff 55%, var(--brand-yellow));
+      -webkit-background-clip:text; background-clip:text;
+      color:transparent;
+    }
+
+
+    .navlinks{
+      display:flex; gap:18px; align-items:center;
+      font-weight:800; font-size:14px;
+      color:rgba(11,15,25,.78);
+    }
+    .navlinks a{
+      padding:10px 10px;
+      border-radius:12px;
+      transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+    }
+    .navlinks a:hover{background:rgba(15,23,42,.06); color:rgba(11,15,25,.92)}
+
+    .actions{display:flex; gap:10px; align-items:center}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
+      padding:12px 16px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:#fff;
+      font-weight:900;
+      font-size:14px;
+      transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
+      cursor:pointer;
+      user-select:none;
+    }
+    .btn:hover{transform: translateY(-1px); box-shadow: 0 14px 28px rgba(2,8,23,.10)}
+    .btn:active{transform: translateY(0)}
+    .btn.primary{
+      border-color: rgba(11,87,208,.22);
+      background: linear-gradient(135deg, rgba(11,87,208,.10), rgba(247,201,72,.12));
+    }
+    .btn.solid{
+      border-color: transparent;
+      color:#fff;
+      background: linear-gradient(135deg, var(--brand-blue), #1e6cf0);
+      box-shadow: 0 18px 46px rgba(11,87,208,.26);
+    }
+    .btn.solid:hover{box-shadow: 0 26px 64px rgba(11,87,208,.28)}
+    .btn:focus-visible{
+      outline:none;
+      box-shadow:0 0 0 4px rgba(11,87,208,.18), 0 0 0 1px rgba(11,87,208,.35);
+    }
+
+    /* Mobile drawer */
+    .menu-btn{display:none}
+    .drawer{position:fixed; inset:0; z-index:60; pointer-events:none; opacity:0; transition:opacity var(--t) var(--ease)}
+    .drawer.open{opacity:1; pointer-events:auto}
+    .drawer .backdrop{position:absolute; inset:0; background:rgba(2,8,23,.46); backdrop-filter: blur(8px)}
+    .drawer .panel{
+      position:absolute; top:16px; right:16px; left:16px;
+      border-radius: 22px;
+      background:rgba(255,255,255,.92);
+      border:1px solid rgba(15,23,42,.12);
+      box-shadow: var(--shadow);
+      padding:14px;
+      transform: translateY(-8px);
+      transition: transform var(--t) var(--ease);
+    }
+    .drawer.open .panel{transform: translateY(0)}
+    .drawer a{display:block; padding:12px 12px; border-radius:14px; font-weight:900; color:rgba(11,15,25,.84)}
+    .drawer a:hover{background:rgba(15,23,42,.06)}
+
+    /* Hero */
+    .hero{padding:84px 0 44px}
+    .hero-grid{display:grid; grid-template-columns: 1fr; gap: 28px; align-items:center}
+    .hero h1{font-size: clamp(44px, 4.6vw, 76px); letter-spacing:-.07em; line-height:1.02; margin-top:14px}
+    .grad{background: linear-gradient(135deg, var(--brand-blue), #2b7bff 55%, var(--brand-yellow)); -webkit-background-clip:text; background-clip:text; color:transparent}
+    .hero p{font-size:17px; margin-top:14px; max-width: 70ch}
+    .hero-ctas{display:flex; gap:12px; flex-wrap:wrap; margin-top:22px}
+
+    .trust{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px; font-size:13px; color:rgba(11,15,25,.72)}
+    .trust .pill{border:1px solid var(--border); background:rgba(255,255,255,.65); backdrop-filter: blur(10px); padding:8px 10px; border-radius:999px; display:inline-flex; align-items:center; gap:8px; font-weight:800}
+    .icon{width:18px; height:18px; border-radius:7px; background:linear-gradient(135deg, rgba(11,87,208,.18), rgba(247,201,72,.22)); border:1px solid rgba(15,23,42,.10)}
+
+    /* Podium counters */
+    .podium{margin-top:26px; display:grid; grid-template-columns: 1fr 1.25fr 1fr; gap:14px; align-items:end}
+    .pstat{border:1px solid rgba(15,23,42,.12); border-radius: var(--radius-lg); background: rgba(255,255,255,.90); box-shadow: 0 12px 40px rgba(2,8,23,.08); padding:18px 18px 16px; position:relative; overflow:hidden}
+    .pstat::before{content:""; position:absolute; inset:-40% -40% auto auto; width:260px; height:260px; background: radial-gradient(circle, rgba(247,201,72,.22), transparent 62%); filter: blur(8px); transform: rotate(12deg)}
+    .pstat::after{content:""; position:absolute; inset:auto auto -46% -46%; width:300px; height:300px; background: radial-gradient(circle, rgba(11,87,208,.18), transparent 62%); filter: blur(10px)}
+
+    .pstat.main{padding:22px 22px 18px; transform: translateY(-10px); border-color: rgba(11,87,208,.22); box-shadow: 0 22px 80px rgba(2,8,23,.12)}
+
+    .pnum{position:relative; font-weight:950; letter-spacing:-.06em; line-height:1; font-size: clamp(44px, 4vw, 66px);
+      background: linear-gradient(135deg, var(--brand-blue), #2b7bff 55%, var(--brand-yellow));
+      -webkit-background-clip:text; background-clip:text; color:transparent}
+    .pstat.main .pnum{font-size: clamp(58px, 5.6vw, 96px)}
+
+    .plabel{position:relative; margin-top:8px; font-weight:950; letter-spacing:-.02em; font-size:13px; color:rgba(11,15,25,.84)}
+    .pdesc{position:relative; margin-top:6px; font-size:12px; color:rgba(11,15,25,.66); font-weight:750; line-height:1.45; max-width: 54ch}
+
+    @media (max-width: 900px){
+      .podium{grid-template-columns:1fr}
+      .pstat.main{transform:none; order:-1}
+    }
+
+    /* Cards */
+    .grid3{display:grid; grid-template-columns: repeat(3, 1fr); gap:14px; margin-top:28px}
+    .card{border:1px solid rgba(15,23,42,.12); border-radius: var(--radius); background: rgba(255,255,255,.88); padding:18px; box-shadow: 0 10px 30px rgba(2,8,23,.06); transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease)}
+    .card:hover{transform: translateY(-3px); box-shadow: 0 18px 60px rgba(2,8,23,.10); border-color: rgba(11,87,208,.20)}
+    .card h3{font-size:16px; letter-spacing:-.02em}
+    .card p{margin-top:8px; font-size:14px}
+
+    /* Plan cards */
+    .plans{display:grid; grid-template-columns: repeat(3, 1fr); gap:14px; margin-top:26px}
+    .plan-card{border:1px solid rgba(15,23,42,.12); border-radius: var(--radius-lg); background: rgba(255,255,255,.90); box-shadow: 0 12px 40px rgba(2,8,23,.08); padding:20px; transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease); position:relative; overflow:hidden; min-height: 200px}
+    .plan-card:hover{transform: translateY(-3px); box-shadow: 0 18px 60px rgba(2,8,23,.10); border-color: rgba(11,87,208,.20)}
+    .plan-card .mini{display:inline-flex; align-items:center; gap:8px; padding:8px 10px; border-radius:999px; border:1px solid rgba(15,23,42,.10); background: rgba(246,247,251,.74); font-weight:900; font-size:11px; letter-spacing:.06em}
+    .plan-card h3{margin-top:12px; font-size:16px; letter-spacing:-.02em}
+    .plan-card p{margin-top:8px; font-size:14px}
+    .plan-card ul{margin:12px 0 0; padding:0; list-style:none; display:grid; gap:8px; font-size:13px; color:rgba(11,15,25,.76)}
+    .plan-card li{display:flex; gap:10px; align-items:flex-start}
+    .plan-card li:before{content:""; width:10px; height:10px; border-radius:999px; margin-top:4px; background: linear-gradient(135deg, var(--brand-blue), var(--brand-yellow)); flex:0 0 auto}
+
+    /* Split + panels (história + contato) */
+    .split{display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-top:26px}
+
+    .panel{border:1px solid rgba(15,23,42,.12); border-radius: var(--radius-lg); background: rgba(255,255,255,.92); box-shadow: 0 12px 40px rgba(2,8,23,.06); padding:18px}
+
+    /* History trail */
+    .trail{margin-top:26px; position:relative; display:grid; gap:14px}
+    .trail::before{content:""; position:absolute; left:26px; top:10px; bottom:10px; width:2px; border-radius:999px; background: linear-gradient(180deg, rgba(11,87,208,.40), rgba(247,201,72,.42)); opacity:.72}
+    .trail-step{position:relative; display:grid; grid-template-columns: 60px 1fr; gap:14px; align-items:start}
+    .trail-node{width:46px; height:46px; margin-left:3px; border-radius:16px; border:1px solid rgba(15,23,42,.12); background: rgba(255,255,255,.92); box-shadow:0 12px 36px rgba(2,8,23,.07); display:grid; place-items:center}
+    .trail-node::before{content:""; width:14px; height:14px; border-radius:999px; background:linear-gradient(135deg, var(--brand-blue), var(--brand-yellow)); box-shadow:0 0 0 6px rgba(11,87,208,.10)}
+    .trail-card{border:1px solid rgba(15,23,42,.12); border-radius: var(--radius-lg); background: rgba(255,255,255,.92); box-shadow: 0 12px 40px rgba(2,8,23,.06); padding:18px}
+    .trail-k{font-weight:950; letter-spacing:-.03em; color:rgba(11,15,25,.72); font-size:12px; text-transform:uppercase}
+    .trail-card h3{margin-top:8px; font-size:18px; letter-spacing:-.02em}
+    .trail-card p{margin-top:8px; font-size:14px}
+
+    .list{margin-top:14px; display:grid; gap:10px}
+    .li{display:flex; gap:12px; align-items:flex-start; padding:12px 12px; border-radius: 18px; border:1px solid rgba(15,23,42,.10); background: rgba(246,247,251,.74)}
+    .check{width:16px;height:16px;border-radius:6px; background: linear-gradient(135deg, var(--brand-blue), var(--brand-yellow)); box-shadow: 0 12px 30px rgba(11,87,208,.18); flex:0 0 auto; margin-top:2px}
+    .li b{display:block; font-weight:900; color:rgba(11,15,25,.92)}
+    .li span{display:block; margin-top:4px; font-size:13px; color:rgba(11,15,25,.70); font-weight:700; line-height:1.5}
+
+    /* Team */
+    .teachers{display:grid; grid-template-columns: repeat(4, 1fr); gap:14px; margin-top:14px}
+    .tcard{border:1px solid rgba(15,23,42,.12); border-radius: var(--radius); background: rgba(255,255,255,.90); padding:14px; transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease); box-shadow: 0 12px 40px rgba(2,8,23,.06); overflow:hidden}
+    .tcard:hover{transform: translateY(-3px); box-shadow: 0 18px 60px rgba(2,8,23,.10)}
+    .avatar-wrap{width:100%; aspect-ratio: 4 / 3; border-radius: 16px; border:1px solid rgba(15,23,42,.12); background: radial-gradient(360px 260px at 20% 20%, rgba(11,87,208,.20), transparent 60%), radial-gradient(320px 240px at 80% 10%, rgba(247,201,72,.24), transparent 65%), rgba(246,247,251,.70); overflow:hidden; position:relative}
+    .avatar-wrap img{width:100%; height:100%; object-fit:cover; display:block; transform: scale(1.02); transition: transform var(--t) var(--ease)}
+    .avatar-wrap img.is-broken{display:none}
+    .tcard:hover .avatar-wrap img{transform: scale(1.06)}
+    .tname{font-weight:900; letter-spacing:-.02em; margin-top:10px; font-size:14px}
+    .tsub{font-size:12px; color:rgba(11,15,25,.68); margin-top:4px; font-weight:900}
+    .chips{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+    .chip{font-size:11px; padding:7px 9px; border-radius:999px; border:1px solid rgba(15,23,42,.10); background: rgba(246,247,251,.74); color:rgba(11,15,25,.78); font-weight:900}
+
+    .team-subtitle{margin-top:22px; font-size:15px; font-weight:950; letter-spacing:-.02em; color:rgba(11,15,25,.84)}
+    .psy-grid{display:grid; grid-template-columns: minmax(280px, 420px); justify-content:center; gap:14px; margin-top:14px}
+    .psy-grid .tcard{max-width:420px;}
+    .psy-grid .avatar-wrap{aspect-ratio: 16 / 9;}
+
+    @media (max-width: 680px){
+      .psy-grid{grid-template-columns: 1fr}
+    }
+
+    /* Testimonials */
+    .carousel{margin-top:26px; position:relative}
+    .track{display:flex; gap:12px; overflow:auto; scroll-snap-type:x mandatory; padding: 4px 4px 14px; -webkit-overflow-scrolling: touch}
+    .track::-webkit-scrollbar{height:10px}
+    .track::-webkit-scrollbar-thumb{background: rgba(15,23,42,.14); border-radius:999px}
+    .quote{flex:0 0 400px; scroll-snap-align:start; border:1px solid rgba(15,23,42,.12); border-radius: var(--radius-lg); background: rgba(255,255,255,.92); box-shadow: 0 12px 40px rgba(2,8,23,.06); padding:18px; transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease)}
+    .quote:hover{transform: translateY(-2px); box-shadow: 0 18px 60px rgba(2,8,23,.10)}
+    .quote .who{margin-top:12px; display:flex; justify-content:space-between; align-items:center; color:rgba(11,15,25,.70); font-size:12px; font-weight:900}
+    .nav-arrows{display:flex; gap:10px; justify-content:flex-end; margin-top:10px}
+
+    /* Contact */
+    .contact{display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-top:26px}
+    .form{border:1px solid rgba(15,23,42,.12); border-radius: var(--radius-lg); background: rgba(255,255,255,.92); box-shadow: 0 12px 40px rgba(2,8,23,.06); padding:18px}
+    label{font-size:12px; font-weight:900; color:rgba(11,15,25,.72)}
+    input, textarea{width:100%; margin-top:8px; padding:12px 12px; border-radius: 14px; border:1px solid rgba(15,23,42,.14); background: rgba(246,247,251,.74); font: inherit; outline:none; transition: border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease)}
+    input:focus, textarea:focus{border-color: rgba(11,87,208,.35); box-shadow: 0 0 0 4px rgba(11,87,208,.14); background:#fff}
+    textarea{min-height:120px; resize:vertical}
+    .form .row{display:grid; grid-template-columns: 1fr 1fr; gap:10px}
+    .note{font-size:12px; color:rgba(11,15,25,.62); margin-top:10px; font-weight:700}
+
+    /* Footer */
+    footer{padding:34px 0 46px; border-top:1px solid rgba(15,23,42,.10); background: linear-gradient(180deg,#fff,var(--bg-2))}
+    .foot{display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; color:rgba(11,15,25,.72); font-size:13px}
+    .foot a{font-weight:900}
+
+    /* Motion */
+    .reveal{opacity:0; transform: translateY(14px) scale(.985); transition: opacity var(--t-slow) var(--ease), transform var(--t-slow) var(--ease); will-change: opacity, transform}
+    .reveal[data-reveal="left"]{transform: translateX(-18px) scale(.985)}
+    .reveal[data-reveal="right"]{transform: translateX(18px) scale(.985)}
+    .reveal[data-reveal="up"]{transform: translateY(18px) scale(.985)}
+    .reveal[data-reveal="scale"]{transform: scale(.96)}
+    .reveal.in{opacity:1; transform: translateY(0) scale(1)}
+    .reveal.in[data-reveal="left"], .reveal.in[data-reveal="right"], .reveal.in[data-reveal="up"], .reveal.in[data-reveal="scale"]{transform: translate(0,0) scale(1)}
+
+    /* Transition overlay */
+    .transition{position:fixed; inset:0; z-index:80; pointer-events:none; opacity:0; background: radial-gradient(900px 600px at 50% 10%, rgba(11,87,208,.16), rgba(255,255,255,.0) 58%), radial-gradient(700px 500px at 60% 40%, rgba(247,201,72,.16), rgba(255,255,255,.0) 60%), rgba(255,255,255,.86); backdrop-filter: blur(14px); transition: opacity 320ms var(--ease)}
+    .transition.on{opacity:1}
+
+    /* Intro splash */
+    body.intro-mode{overflow:hidden}
+    body.intro-mode .topbar{opacity:0; pointer-events:none}
+    body.intro-mode main{opacity:0; transform: translateY(10px)}
+    body.intro-mode #brandText{opacity:0}
+
+    body.intro-done{overflow:auto}
+    body.intro-done .topbar{opacity:1; pointer-events:auto; transition: opacity 380ms var(--ease)}
+    body.intro-done main{opacity:1; transform: translateY(0); transition: opacity 720ms var(--ease), transform 720ms var(--ease)}
+    body.intro-done #brandText{opacity:1; transition: opacity 240ms var(--ease)}
+
+    .intro{
+      position:fixed; inset:0; z-index:90;
+      display:grid; place-items:center;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(16px);
+      transition: opacity 620ms var(--ease);
+    }
+    .intro-brand{
+      font-weight: 950;
+      letter-spacing: -.06em;
+      font-size: clamp(54px, 9vw, 124px);
+      background: linear-gradient(135deg, var(--brand-blue), #2b7bff 55%, var(--brand-yellow));
+      -webkit-background-clip:text; background-clip:text;
+      color:transparent;
+      will-change: transform;
+    }
+    body.intro-done .intro{opacity:0; pointer-events:none}
+
+    /* WhatsApp FAB */
+    .fab{position:fixed; right:16px; bottom:16px; z-index:70; display:flex; align-items:center; gap:10px; padding:12px 14px; border-radius: 999px; border:1px solid rgba(15,23,42,.12); background: rgba(255,255,255,.92); box-shadow: var(--shadow); backdrop-filter: blur(12px); transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease)}
+    .fab:hover{transform: translateY(-2px); box-shadow: 0 20px 70px rgba(2,8,23,.14)}
+    .waball{width:14px; height:14px; border-radius:999px; background: linear-gradient(135deg, var(--brand-yellow), var(--brand-blue))}
+    .fab span{font-weight:900; font-size:13px}
+    .fab small{display:block; color:rgba(11,15,25,.62); font-weight:900; font-size:11px; margin-top:2px}
+
+    /* Responsive */
+    @media (max-width: 1200px){
+      .hero-grid{grid-template-columns: 1fr; gap:18px}
+      .grid3{grid-template-columns: 1fr}
+      .plans{grid-template-columns: 1fr}
+      .teachers{grid-template-columns: 1fr 1fr}
+      .contact{grid-template-columns: 1fr}
+      .split{grid-template-columns: 1fr}
+      .navlinks{display:none}
+.menu-btn{display:inline-flex}
+      .nav{height:70px}
+      .section{padding:82px 0}
+    }
+    @media (max-width: 680px){
+      .container{padding:0 18px}
+      .hero{padding:64px 0 28px}
+      .hero h1{font-size: clamp(36px, 10vw, 52px)}
+      .teachers{grid-template-columns: 1fr}
+      .form .row{grid-template-columns: 1fr}
+      .quote{flex-basis: 320px}
+      .nav-arrows{justify-content:space-between}
+    }
+    @media (prefers-reduced-motion: reduce){
+      html{scroll-behavior:auto}
+      .btn,.card,.tcard,.plan-card,.quote,.reveal,.drawer,.transition{transition:none !important}
+      .reveal{opacity:1; transform:none}
+    }
+  </style>
+</head>
+
+<body class="intro-mode">
+  <div class="transition" id="transition" aria-hidden="true"></div>
+
+  <div class="intro" id="intro" aria-hidden="false">
+    <div class="intro-brand" id="introBrand">+Potencial</div>
+  </div>
+
+  <header class="topbar" id="topbar">
+    <div class="container">
+      <div class="nav">
+        <a class="brand" href="#top" data-nav>
+          <span id="brandText">+Potencial</span>
+        </a>
+
+        <nav class="navlinks" aria-label="Navegação principal">
+          <a href="#top" data-nav>Início</a>
+          <a href="#planos" data-nav>Planos</a>
+          <a href="#equipe" data-nav>Equipe</a>
+          <a href="#contato" data-nav>Falar no WhatsApp</a>
+        </nav>
+        <div class="actions">
+          <button class="btn menu-btn" id="openMenu" aria-label="Abrir menu">Menu</button>
+          <a class="btn primary" href="#planos" data-nav>Ver planos</a>
+          <a class="btn solid" id="ctaWhatsTop" href="#" rel="noopener">WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="drawer" id="drawer" aria-hidden="true">
+    <div class="backdrop" id="drawerBackdrop"></div>
+    <div class="panel" role="dialog" aria-modal="true" aria-label="Menu">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; padding:6px 6px 10px;">
+        <div class="brand" style="gap:10px;">
+          <span style="font-weight:900">+Potencial</span>
+        </div>
+        <button class="btn" id="closeMenu" aria-label="Fechar menu">Fechar</button>
+      </div>
+      <a href="#top" data-nav>Início</a>
+      <a href="#planos" data-nav>Planos</a>
+      <a href="#equipe" data-nav>Equipe</a>
+      <a href="#contato" data-nav>Falar no WhatsApp</a>
+      <div style="display:flex; gap:10px; padding:12px 8px 6px;">
+        <a class="btn primary" href="#planos" data-nav style="flex:1;">Ver planos</a>
+        <a class="btn solid" id="ctaWhatsDrawer" href="#" style="flex:1;" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="reveal" data-reveal="left">
+            <span class="kicker"><span class="dot"></span> Ensino Multidisciplinar · Varginha–MG</span>
+            <h1>
+              Estudo guiado para transformar
+              <span class="grad">esforço em aprovações reais.</span>
+            </h1>
+            <p>
+              Na +Potencial, o aluno não fica perdido. Organizamos conteúdos, criamos rotinas de estudo e acompanhamos cada passo — da lição de casa ao ENEM — com explicações claras e proximidade com a família.
+            </p>
+
+            <div class="hero-ctas">
+              <a class="btn solid" id="ctaWhatsHero" href="#" rel="noopener">Falar no WhatsApp agora</a>
+              <a class="btn primary" href="#planos" data-nav>Ver planos</a>
+            </div>
+
+            <div class="trust" aria-label="Destaques">
+              <span class="pill"><span class="icon" aria-hidden="true"></span> Aulas presenciais e online</span>
+              <span class="pill"><span class="icon" aria-hidden="true"></span> Fundamental II</span>
+              <span class="pill"><span class="icon" aria-hidden="true"></span> Ensino Médio</span>
+              <span class="pill"><span class="icon" aria-hidden="true"></span> ENEM & Vestibulares</span>
+            </div>
+
+            <div class="podium reveal" data-reveal="up" aria-label="Indicadores">
+              <div class="pstat">
+                <div class="pnum" data-count="students" data-done="0">0</div>
+                <div class="plabel">alunos</div>
+                <div class="pdesc">Alunos acompanhados com rotina guiada e foco em resultado.</div>
+                <!-- Nota: este número pode representar alunos atendidos/ativos -->
+              </div>
+
+              <div class="pstat main">
+                <div class="pnum grad" data-count="approvals" data-done="0">0</div>
+                <div class="plabel">aprovações</div>
+                <div class="pdesc">Resultados que contam história — e continuam subindo.<!-- Nota: este indicador pode ser removido ou trocado por outro número. --></div>
+              </div>
+
+              <div class="pstat">
+                <div class="pnum" data-count="essays" data-suffix="+" data-done="0">0</div>
+                <div class="plabel">redação</div>
+                <div class="pdesc">nota 900+ (ENEM/vestibular)</div>
+              </div>
+            </div>
+
+
+            <div class="grid3" style="margin-top:22px">
+              <div class="card reveal" data-reveal="up">
+                <h3>Metodologia com direção</h3>
+                <p>Rotina, prática e revisão. Menos volume aleatório, mais evolução previsível.</p>
+              </div>
+              <div class="card reveal" data-reveal="up">
+                <h3>Acompanhamento real</h3>
+                <p>Diagnóstico de lacunas e ajustes constantes, conforme calendário e boletim.</p>
+              </div>
+              <div class="card reveal" data-reveal="up">
+                <h3>Clareza e constância</h3>
+                <p>O aluno entende o conteúdo, aprende a estudar sozinho e tem suporte quando travar.</p>
+              </div>
+            </div>
+          </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="por-que">
+      <div class="container">
+        <div class="reveal" data-reveal="up">
+          <span class="kicker"><span class="dot"></span> Por que +Potencial?</span>
+          <h2 style="font-size:38px; letter-spacing:-.06em; margin-top:10px;">Três pilares que guiam nosso trabalho.</h2>
+          <p style="margin-top:10px; max-width:80ch;">
+            Metodologia, acompanhamento e ambiente. O objetivo é simples: fazer o aluno entender o conteúdo, saber estudar sozinho e ter apoio quando surgir dificuldade.
+          </p>
+        </div>
+
+        <div class="grid3">
+          <div class="card reveal" data-reveal="up">
+            <h3>Metodologia focada em resultado</h3>
+            <p>Aulas objetivas, listas dirigidas, revisões estratégicas e simulados com correção comentada.</p>
+          </div>
+          <div class="card reveal" data-reveal="up">
+            <h3>Professores próximos</h3>
+            <p>Espaço para perguntar, errar e aprender. A equipe identifica lacunas e ajusta a rota.</p>
+          </div>
+          <div class="card reveal" data-reveal="up">
+            <h3>Comunicação com a família</h3>
+            <p>Feedbacks periódicos, avisos importantes e contato direto pelo WhatsApp.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="planos">
+      <div class="container">
+        <div class="reveal" data-reveal="up">
+          <span class="kicker"><span class="dot"></span> Planos</span>
+          <h2 style="font-size:38px; letter-spacing:-.06em; margin-top:10px;">Planos claros. Objetivo direto.</h2>
+          <p style="margin-top:10px; max-width:80ch;">Três caminhos, um objetivo: constância. Escolha o plano e ajuste detalhes pelo WhatsApp.</p>
+          <!-- Nota (não aparece no site): aqui você pode ajustar horários, valores e modalidades depois. -->
+        </div>
+
+        <div class="plans">
+          <div class="plan-card reveal" data-reveal="up">
+            <span class="mini">FUNDAMENTAL II</span>
+            <h3>Reforço e rotina</h3>
+            <p>Para criar base, hábito e autonomia nos estudos — sem depender de “pico de motivação”.</p>
+            <ul>
+              <li>Organização semanal</li>
+              <li>Prática guiada</li>
+              <li>Acompanhamento de tarefas</li>
+            </ul>
+          </div>
+
+          <div class="plan-card reveal" data-reveal="up">
+            <span class="mini">ENSINO MÉDIO</span>
+            <h3>Base + desempenho</h3>
+            <p>Conteúdo com aplicação e revisão inteligente para subir nota com constância.</p>
+            <ul>
+              <li>Mapa de lacunas</li>
+              <li>Revisões estratégicas</li>
+              <li>Correção e feedback</li>
+            </ul>
+          </div>
+
+          <div class="plan-card reveal" data-reveal="up">
+            <span class="mini">ENEM & VESTIBULARES</span>
+            <h3>Estratégia por prova</h3>
+            <p>Direção por banca, treino de prova e correção comentada para reduzir erros repetidos.</p>
+            <ul>
+              <li>Simulados</li>
+              <li>Correção comentada</li>
+              <li>Plano de revisão</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="equipe">
+      <div class="container">
+        <div class="reveal" data-reveal="up">
+          <span class="kicker"><span class="dot"></span> Equipe</span>
+          <h2 style="font-size:38px; letter-spacing:-.06em; margin-top:10px;">Professores próximos. De verdade.</h2>
+          <p style="margin-top:10px; max-width:80ch;">Equipe multidisciplinar com professores próximos e apoio especializado.</p>
+          <!-- Dica (não aparece no site): salve fotos em assets/equipe/ e atualize os src (ex.: assets/equipe/rogerio.jpg). -->
+        </div>
+
+        <h3 class="team-subtitle">Professores</h3>
+
+        <div class="teachers">
+          <div class="tcard reveal" data-reveal="up">
+            <div class="avatar-wrap">
+              <img src="assets/equipe/rogerio.jpg" alt="Professor Rogério Frogeri" onerror="this.classList.add('is-broken')" />
+            </div>
+            <div class="tname">Rogério Frogeri</div>
+            <div class="tsub">Produção Textual • Língua Portuguesa</div>
+          </div>
+
+          <div class="tcard reveal" data-reveal="up">
+            <div class="avatar-wrap">
+              <img src="assets/equipe/diego.jpg" alt="Professor Diego Pereira" onerror="this.classList.add('is-broken')" />
+            </div>
+            <div class="tname">Diego Pereira</div>
+            <div class="tsub">Matemática • Fisica • Quimica</div>
+          </div>
+
+          <div class="tcard reveal" data-reveal="up">
+            <div class="avatar-wrap">
+              <img src="assets/equipe/leticia.jpg" alt="Professor(a)" onerror="this.classList.add('is-broken')" />
+            </div>
+            <div class="tname">Letícia</div>
+            <div class="tsub">Inglês </div>
+          </div>
+
+          <div class="tcard reveal" data-reveal="up">
+            <div class="avatar-wrap">
+              <img src="assets/equipe/cristiane.jpg" alt="Professor(a)" onerror="this.classList.add('is-broken')" />
+            </div>
+            <div class="tname">Professor(a) — Biologia</div>
+            <div class="tsub">Biologia</div>
+          </div>
+        </div>
+
+        <h3 class="team-subtitle">Psicologia</h3>
+        <div class="psy-grid">
+          <div class="tcard reveal" data-reveal="up">
+            <div class="avatar-wrap" style="aspect-ratio: 16 / 9;">
+              <img src="assets/equipe/nicole.jpg" alt="Psicóloga" onerror="this.classList.add('is-broken')" />
+            </div>
+            <div class="tname">Nicole Tavares,</div>
+            <div class="tsub">Acompanhamento • Orientação • Apoio</div>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="historia">
+      <div class="container">
+        <div class="reveal" data-reveal="up">
+          <span class="kicker"><span class="dot"></span> Nossa história</span>
+          <h2 style="font-size:38px; letter-spacing:-.06em; margin-top:10px;">Como o +Potencial nasceu e cresceu em Varginha.</h2>
+          <p style="margin-top:10px; max-width:90ch;">A história começou em uma sala e evoluiu para um centro de estudos multidisciplinar, com estrutura e professores de diferentes áreas.</p>
+        </div>
+
+        <div class="trail">
+          <div class="trail-step reveal" data-reveal="up">
+            <div class="trail-node" aria-hidden="true"></div>
+            <div class="trail-card">
+              <div class="trail-k">2021</div>
+              <h3>O começo: rotina e acompanhamento</h3>
+              <p>Rogério Frogeri inicia o projeto, alugando uma sala na Galeria Antares (Centro), com foco em organização e acompanhamento individual.</p>
+            </div>
+          </div>
+
+          <div class="trail-step reveal" data-reveal="up">
+            <div class="trail-node" aria-hidden="true"></div>
+            <div class="trail-card">
+              <div class="trail-k">2022</div>
+              <h3>Parceria e crescimento</h3>
+              <p>Chega Diego Pereira, referência em Matemática e Naturezas. A demanda cresce e o espaço começa a pedir mais estrutura.</p>
+            </div>
+          </div>
+
+          <div class="trail-step reveal" data-reveal="up">
+            <div class="trail-node" aria-hidden="true"></div>
+            <div class="trail-card">
+              <div class="trail-k">2024</div>
+              <h3>Centro multidisciplinar</h3>
+              <p>Novo espaço com salas independentes, recepção e estrutura para equipe de diferentes áreas — incluindo apoio especializado.</p>
+            </div>
+          </div>
+
+          <div class="trail-step reveal" data-reveal="up">
+            <div class="trail-node" aria-hidden="true"></div>
+            <div class="trail-card">
+              <div class="trail-k">Hoje</div>
+              <h3>O que você encontra no +Potencial</h3>
+              <div class="list" style="margin-top:12px">
+                <div class="li"><div class="check" aria-hidden="true"></div><div><b>Estrutura</b><span>Ambiente pensado para estudo: salas, recepção e fluxo organizado.</span></div></div>
+                <div class="li"><div class="check" aria-hidden="true"></div><div><b>Mais áreas</b><span>Equipe com diferentes disciplinas e cursos especializados, como Redação e preparação para ENEM/vestibulares.</span></div></div>
+                <div class="li"><div class="check" aria-hidden="true"></div><div><b>Acompanhamento</b><span>Rotina orientada e feedbacks para o aluno (e família) enxergarem evolução.</span></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="depoimentos">
+      <div class="container">
+        <div class="reveal" data-reveal="up">
+          <span class="kicker"><span class="dot"></span> Depoimentos</span>
+          <h2 style="font-size:38px; letter-spacing:-.06em; margin-top:10px;">Menos drama. Mais resultado.</h2>
+          <p style="margin-top:10px; max-width:80ch;">Depoimentos de quem ganhou rotina, confiança e resultado.</p>
+          <!-- Nota (não aparece no site): no celular, arraste o carrossel para o lado. -->
+        </div>
+
+        <div class="carousel reveal" data-reveal="up">
+          <div class="track" id="track" aria-label="Depoimentos">
+            <article class="quote"><p>“Eu finalmente tive rotina. O estudo virou ‘todo dia’, sem sofrimento extra.”</p><div class="who"><span>Aluno(a) • Objetivo</span><span>★★★★★</span></div></article>
+            <article class="quote"><p>“A diferença foi o feedback: eu corrigia o erro na semana, não no mês seguinte.”</p><div class="who"><span>Aluno(a) • Prova</span><span>★★★★★</span></div></article>
+            <article class="quote"><p>“Menos conteúdo aleatório e mais direção. Meu desempenho ficou previsível.”</p><div class="who"><span>Aluno(a) • Evolução</span><span>★★★★★</span></div></article>
+            <article class="quote"><p>“O método é simples, mas o capricho na execução é o que muda o jogo.”</p><div class="who"><span>Aluno(a) • Rotina</span><span>★★★★★</span></div></article>
+          </div>
+
+          <div class="nav-arrows">
+            <button class="btn" id="prev" aria-label="Anterior">←</button>
+            <button class="btn" id="next" aria-label="Próximo">→</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contato">
+      <div class="container">
+        <div class="reveal" data-reveal="up">
+          <span class="kicker"><span class="dot"></span> Contato</span>
+          <h2 style="font-size:38px; letter-spacing:-.06em; margin-top:10px;">Vamos montar sua rotina.</h2>
+          <p style="margin-top:10px; max-width:80ch;">Preencha e a conversa continua no WhatsApp — com a mensagem já montada.</p>
+          <!-- Nota (não aparece no site): o formulário redireciona para o WhatsApp com a mensagem preenchida. -->
+        </div>
+
+        <div class="contact">
+          <div class="panel reveal" data-reveal="left">
+            <h3 style="font-size:18px; letter-spacing:-.02em;">Atendimento</h3>
+            <p style="margin-top:10px;">Avenida Rui Barbosa, 230 – Centro, Varginha–MG</p>
+            <div class="list">
+              <div class="li"><div class="check" aria-hidden="true"></div><div><b>WhatsApp</b><span id="whatsLabel">(35) 9 8889-0694</span></div></div>
+              <div class="li"><div class="check" aria-hidden="true"></div><div><b>Local</b><span>Varginha · Minas Gerais</span></div></div>
+              <div class="li"><div class="check" aria-hidden="true"></div><div><b>Modalidade</b><span>Presencial • Online</span></div></div>
+            </div>
+          </div>
+
+          <form class="form reveal" data-reveal="right" id="leadForm">
+            <div class="row">
+              <div>
+                <label for="nome">Nome</label>
+                <input id="nome" name="nome" placeholder="Seu nome" required />
+              </div>
+              <div>
+                <label for="objetivo">Objetivo</label>
+                <input id="objetivo" name="objetivo" placeholder="ENEM, vestibular, reforço…" required />
+              </div>
+            </div>
+
+            <div style="margin-top:10px">
+              <label for="msg">Mensagem</label>
+              <textarea id="msg" name="msg" placeholder="Me conte sua rotina e dificuldades…"></textarea>
+            </div>
+
+            <button class="btn solid" type="submit" style="width:100%; margin-top:12px;">Enviar no WhatsApp</button>
+            <p class="note">Ao enviar, você será direcionado ao WhatsApp com a mensagem pronta.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="foot">
+        <div><b style="font-weight:900">+Potencial Ensino Multidisciplinar</b> • © <span id="year">2026</span></div>
+        <div style="display:flex; gap:14px; flex-wrap:wrap;">
+          <a href="#planos" data-nav>Planos</a>
+          <a href="#equipe" data-nav>Equipe</a>
+          <a href="#contato" data-nav>Contato</a>
+        </div>
+      </div>
+      <div style="margin-top:10px; color:rgba(11,15,25,.70); font-size:13px; font-weight:800;">
+        Varginha · Minas Gerais • Avenida Rui Barbosa, 230 – Centro • WhatsApp: <span id="whatsFooter">(35) 9 8889-0694</span>
+      </div>
+    </div>
+  </footer>
+
+  <a class="fab" id="fabWhats" href="#" rel="noopener" aria-label="Abrir WhatsApp">
+    <span class="waball" aria-hidden="true"></span>
+    <div>
+      <span>WhatsApp</span>
+      <small>Responder rápido</small>
+    </div>
+  </a>
+
+  <script>
+    // ====== CONFIG (edite aqui) ======
+    const BRAND_NAME = "+Potencial Ensino Multidisciplinar";
+    const CITY_LINE = "Varginha–MG";
+    const WHATS_NUMBER_E164 = "5535988890694"; // só números. Ex: 5511999999999
+    const WHATS_DEFAULT_MESSAGE = "Oi! Quero informações sobre a +Potencial Ensino Multidisciplinar. Pode me ajudar?";
+
+    // Contador de aprovações (se não quiser, pode remover o bloco no HTML)
+    const APPROVALS_TOTAL = 1284;
+    const STUDENTS_TOTAL = 320; // edite para o seu número real
+    const ESSAY_900_TOTAL = 900; // exibe 900+
+
+    // =================================
+
+    const topbar = document.getElementById("topbar");
+    const transition = document.getElementById("transition");
+
+    // Intro: logo grande no centro -> encolhe para o canto ao rolar
+    const intro = document.getElementById("intro");
+    const introBrand = document.getElementById("introBrand");
+    const brandText = document.getElementById("brandText");
+
+    let introDone = false;
+    const exitIntro = () => {
+      if (introDone) return;
+      introDone = true;
+
+      // fixa a posição atual para animar com FLIP
+      if (introBrand && brandText) {
+        const from = introBrand.getBoundingClientRect();
+
+        introBrand.style.position = "fixed";
+        introBrand.style.left = from.left + "px";
+        introBrand.style.top = from.top + "px";
+        introBrand.style.transform = "none";
+        introBrand.style.margin = "0";
+        introBrand.style.transition = "transform 940ms var(--ease), opacity 680ms var(--ease)";
+        introBrand.style.transformOrigin = "top left";
+
+        // mede o alvo depois de travar a posição
+        const to = brandText.getBoundingClientRect();
+        const dx = to.left - from.left;
+        const dy = to.top - from.top;
+        const s = Math.max(0.2, Math.min(1, (to.width / from.width) || 0.28));
+
+        requestAnimationFrame(() => {
+          introBrand.style.transform = `translate(${dx}px, ${dy}px) scale(${s})`;
+          // o texto real do header aparece só no final
+          setTimeout(() => {
+            document.body.classList.remove("intro-mode");
+            document.body.classList.add("intro-done");
+            intro?.setAttribute("aria-hidden", "true");
+          }, 940);
+        });
+      } else {
+        document.body.classList.remove("intro-mode");
+        document.body.classList.add("intro-done");
+        intro?.setAttribute("aria-hidden", "true");
+      }
+
+      // libera scroll imediatamente (o fade segura o resto)
+      document.body.style.overflow = "";
+    };
+
+    const firstScrollTriggers = (e) => {
+      // evita scroll fantasma durante o intro
+      if (document.body.classList.contains("intro-mode")) {
+        e.preventDefault?.();
+        exitIntro();
+      }
+    };
+
+    window.addEventListener("wheel", firstScrollTriggers, { passive: false, once: true });
+    window.addEventListener("touchstart", firstScrollTriggers, { passive: false, once: true });
+    window.addEventListener(
+      "keydown",
+      (e) => {
+        const keys = ["ArrowDown", "PageDown", "Space", "Enter"];
+        if (keys.includes(e.code) || keys.includes(e.key)) firstScrollTriggers(e);
+      },
+      { once: true }
+    );
+
+    const buildWhatsLink = (text) => {
+      const msg = encodeURIComponent(text);
+      return `https://wa.me/${WHATS_NUMBER_E164}?text=${msg}`;
+    };
+
+    const formatBRPhone = (e164) => {
+      const d = String(e164 || "").replace(/\D/g, "");
+      if (!d.startsWith("55") || d.length < 12) return e164;
+      const ddd = d.slice(2, 4);
+      const num = d.slice(4);
+      // ex: 988890694 -> (35) 9 8889-0694
+      if (num.length === 9) {
+        const p1 = num.slice(0, 1);
+        const p2 = num.slice(1, 5);
+        const p3 = num.slice(5, 9);
+        return `(${ddd}) ${p1} ${p2}-${p3}`;
+      }
+      if (num.length === 8) {
+        const p2 = num.slice(0, 4);
+        const p3 = num.slice(4, 8);
+        return `(${ddd}) ${p2}-${p3}`;
+      }
+      return `(${ddd}) ${num}`;
+    };
+
+    // WhatsApp links
+    const ctaWhatsTop = document.getElementById("ctaWhatsTop");
+    const ctaWhatsDrawer = document.getElementById("ctaWhatsDrawer");
+    const ctaWhatsHero = document.getElementById("ctaWhatsHero");
+    const fabWhats = document.getElementById("fabWhats");
+    const whatsLabel = document.getElementById("whatsLabel");
+    const whatsFooter = document.getElementById("whatsFooter");
+
+    const whatsHref = buildWhatsLink(WHATS_DEFAULT_MESSAGE);
+    [ctaWhatsTop, ctaWhatsDrawer, ctaWhatsHero, fabWhats].forEach((el) => {
+      if (el) el.href = whatsHref;
+    });
+
+    const formattedPhone = formatBRPhone(WHATS_NUMBER_E164);
+    if (whatsLabel) whatsLabel.textContent = formattedPhone;
+    if (whatsFooter) whatsFooter.textContent = formattedPhone;
+
+    // Year
+    const year = document.getElementById("year");
+    if (year) year.textContent = new Date().getFullYear();
+
+    // Navbar scroll effect
+    const onScroll = () => {
+      if (!topbar) return;
+      if (window.scrollY > 10) topbar.classList.add("scrolled");
+      else topbar.classList.remove("scrolled");
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    // Drawer (mobile)
+    const drawer = document.getElementById("drawer");
+    const openMenu = document.getElementById("openMenu");
+    const closeMenu = document.getElementById("closeMenu");
+    const drawerBackdrop = document.getElementById("drawerBackdrop");
+
+    const openDrawer = () => {
+      if (!drawer) return;
+      drawer.classList.add("open");
+      drawer.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    };
+
+    const closeDrawerFn = () => {
+      if (!drawer) return;
+      drawer.classList.remove("open");
+      drawer.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    };
+
+    openMenu?.addEventListener("click", openDrawer);
+    closeMenu?.addEventListener("click", closeDrawerFn);
+    drawerBackdrop?.addEventListener("click", closeDrawerFn);
+
+    // Page transition for internal nav
+    const internalNav = (hash) => {
+      if (!hash || !hash.startsWith("#")) return;
+      const el = document.querySelector(hash);
+      if (!el) return;
+
+      transition?.classList.add("on");
+      window.setTimeout(() => {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        window.setTimeout(() => transition?.classList.remove("on"), 520);
+      }, 320);
+    };
+
+    document.querySelectorAll("[data-nav]").forEach((a) => {
+      a.addEventListener("click", (e) => {
+        const href = a.getAttribute("href");
+        if (href && href.startsWith("#")) {
+          e.preventDefault();
+          closeDrawerFn();
+          internalNav(href);
+        }
+      });
+    });
+
+    // Reveal on scroll (stagger)
+    const revealEls = document.querySelectorAll(".reveal");
+    revealEls.forEach((el, i) => {
+      el.style.transitionDelay = `${Math.min(i * 20, 220)}ms`;
+    });
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add("in");
+        });
+      },
+      { threshold: 0.14 }
+    );
+
+    revealEls.forEach((el) => io.observe(el));
+
+    // Count-up counters (podium)
+    const formatNum = (n) => n.toLocaleString("pt-BR");
+
+    const COUNTS = {
+      approvals: APPROVALS_TOTAL,
+      students: STUDENTS_TOTAL,
+      essays: ESSAY_900_TOTAL,
+    };
+
+    const animateCount = (el, to, suffix = "") => {
+      const duration = 1500;
+      const start = performance.now();
+      const from = 0;
+
+      const tick = (now) => {
+        const t = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const val = Math.round(from + (to - from) * eased);
+        el.textContent = formatNum(val) + suffix;
+        if (t < 1) requestAnimationFrame(tick);
+      };
+
+      requestAnimationFrame(tick);
+    };
+
+    const countEls = document.querySelectorAll("[data-count]");
+    if (countEls.length) {
+      const countIO = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const el = entry.target;
+            if (el.getAttribute("data-done") === "1") return;
+
+            const key = el.getAttribute("data-count") || "";
+            const to = COUNTS[key];
+            if (typeof to !== "number") return;
+
+            el.setAttribute("data-done", "1");
+            const suffix = el.getAttribute("data-suffix") || "";
+            animateCount(el, to, suffix);
+          });
+        },
+        { threshold: 0.55 }
+      );
+
+      countEls.forEach((el) => countIO.observe(el));
+    }
+
+
+    // Testimonials arrows
+    const track = document.getElementById("track");
+    const prev = document.getElementById("prev");
+    const next = document.getElementById("next");
+    const step = 410;
+    prev?.addEventListener("click", () => track?.scrollBy({ left: -step, behavior: "smooth" }));
+    next?.addEventListener("click", () => track?.scrollBy({ left: step, behavior: "smooth" }));
+
+    // Contact form -> WhatsApp message
+    const form = document.getElementById("leadForm");
+    form?.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nome = document.getElementById("nome")?.value?.trim() || "";
+      const objetivo = document.getElementById("objetivo")?.value?.trim() || "";
+      const msg = document.getElementById("msg")?.value?.trim() || "";
+
+      const text =
+        `Oi! Eu sou ${nome}.\n` +
+        `Objetivo: ${objetivo}.\n` +
+        (msg ? `Mensagem: ${msg}\n` : "") +
+        `Quero informações sobre a ${BRAND_NAME} (${CITY_LINE}).`;
+
+      window.open(buildWhatsLink(text), "_blank", "noopener,noreferrer");
+    });
+  </script>
+</body>
+</html>
